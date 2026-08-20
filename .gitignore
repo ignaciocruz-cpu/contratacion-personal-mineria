@@ -1,0 +1,16 @@
+# Base de datos y documentos de candidatos (datos personales)
+flesan_recluta.db
+uploads/
+reporte_nombres.txt
+
+# Excel / planillas con datos de candidatos
+*.xlsx
+*.xls
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Claude workspace
+.claude/

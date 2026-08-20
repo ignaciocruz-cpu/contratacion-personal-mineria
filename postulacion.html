@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro de Postulante — Flesan Minería</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@700;800;900&family=Barlow+Semi+Condensed:wght@500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Barlow',sans-serif;background:#F4F4F4;color:#231F20;min-height:100vh}
+.header{background:#231F20;padding:18px 24px;display:flex;align-items:center;gap:14px;border-bottom:3px solid #E30613}
+.header img{height:36px}
+.header h1{font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;font-style:italic;color:#F4F4F4;text-transform:uppercase;letter-spacing:-.01em}
+.header .sub{font-family:'Barlow Semi Condensed',sans-serif;font-size:.68rem;font-weight:600;color:#A8A9A9;letter-spacing:.1em;text-transform:uppercase}
+.container{max-width:820px;margin:32px auto;padding:0 16px}
+.card{background:#fff;border:1px solid #D9D9D9;padding:28px;margin-bottom:20px}
+.section-title{font-family:'Barlow Semi Condensed',sans-serif;font-size:.7rem;font-weight:700;color:#A8A9A9;text-transform:uppercase;letter-spacing:.1em;border-bottom:1px solid #E5E5E5;padding-bottom:8px;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.grid.col1{grid-template-columns:1fr}
+.grid.col3{grid-template-columns:1fr 1fr 1fr}
+.form-group{display:flex;flex-direction:column;gap:5px}
+label{font-family:'Barlow Semi Condensed',sans-serif;font-size:.75rem;font-weight:600;color:#58595B;text-transform:uppercase;letter-spacing:.05em}
+input,select,textarea{border:1px solid #D9D9D9;padding:9px 12px;font-size:.88rem;font-family:'Barlow',sans-serif;color:#231F20;outline:none;background:#fff;transition:border-color .15s;width:100%}
+input:focus,select:focus,textarea:focus{border-color:#E30613}
+textarea{resize:vertical}
+.btn{padding:12px 28px;font-family:'Barlow Semi Condensed',sans-serif;font-size:.88rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:#E30613;color:#fff}
+.btn-primary:hover{background:#B30000}
+.footer-form{display:flex;justify-content:flex-end;gap:12px;margin-top:8px}
+.alert{padding:16px;margin-bottom:20px;font-family:'Barlow Semi Condensed',sans-serif;font-size:.9rem;font-weight:600}
+.alert-ok{background:#064e3b;color:#6ee7b7;border-left:3px solid #22c55e}
+.alert-err{background:#7f1d1d;color:#fca5a5;border-left:3px solid #ef4444}
+.required::after{content:' *';color:#E30613}
+.intro{font-family:'Barlow',sans-serif;font-size:.85rem;color:#58595B;margin-bottom:20px;line-height:1.5}
+@media(max-width:600px){
+  .grid,.grid.col3{grid-template-columns:1fr}
+  input,select,textarea{font-size:16px}
+  .container{margin:20px auto}
+  .card{padding:20px}
+  .footer-form{flex-direction:column}
+  .footer-form .btn{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="header">
+  <img src="/logo-mineria-color.png" alt="Flesan Minería" onerror="this.style.display='none'">
+  <div>
+    <div class="h1" style="font-family:'Barlow Condensed',sans-serif;font-size:1.2rem;font-weight:800;font-style:italic;color:#F4F4F4;text-transform:uppercase">Flesan Minería</div>
+    <div class="sub" style="font-family:'Barlow Semi Condensed',sans-serif;font-size:.68rem;font-weight:600;color:#A8A9A9;letter-spacing:.1em;text-transform:uppercase">Registro de Postulante</div>
+  </div>
+</div>
+
+<div class="container">
+  <div id="msg"></div>
+  <p class="intro">Completa tus datos para postular a las vacantes de Flesan Minería. Los campos marcados con * son obligatorios; el resto nos ayuda a encontrarte el cargo más adecuado.</p>
+
+  <form id="form-post" onsubmit="enviar(event)">
+
+    <div class="card">
+      <div class="section-title">Datos Personales</div>
+      <div class="grid">
+        <div class="form-group"><label class="required">Apellido Paterno</label><input id="apellido_paterno" required></div>
+        <div class="form-group"><label>Apellido Materno</label><input id="apellido_materno"></div>
+        <div class="form-group"><label class="required">Primer Nombre</label><input id="primer_nombre" required></div>
+        <div class="form-group"><label>Segundo Nombre</label><input id="segundo_nombre"></div>
+        <div class="form-group"><label class="required">RUT</label><input id="rut" placeholder="12.345.678-9" required></div>
+        <div class="form-group"><label>Fecha de Nacimiento</label><input id="fecha_nacimiento" type="date"></div>
+        <div class="form-group"><label>Estado Civil</label>
+          <select id="estado_civil">
+            <option value="">—</option>
+            <option>Soltero/a</option><option>Casado/a</option>
+            <option>Divorciado/a</option><option>Viudo/a</option><option>Conviviente civil</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Nacionalidad</label>
+          <select id="nacionalidad">
+            <option value="Chilena">Chilena</option><option>Peruana</option>
+            <option>Boliviana</option><option>Colombiana</option><option>Argentina</option><option>Otra</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Contacto y Dirección</div>
+      <div class="grid">
+        <div class="form-group"><label>Teléfono</label><input id="telefono" placeholder="+56 9 XXXX XXXX"></div>
+        <div class="form-group"><label>Correo Electrónico</label><input id="correo" type="email"></div>
+        <div class="form-group"><label>Dirección</label><input id="direccion"></div>
+        <div class="form-group"><label>Comuna</label><input id="comuna"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Datos Profesionales</div>
+      <div class="grid">
+<div class="form-group"><label>Experiencia General (años)</label><input id="experiencia_general" type="number" min="0" value="0"></div>
+        <div class="form-group"><label>Experiencia Específica (años)</label><input id="experiencia_especifica" type="number" min="0" value="0"></div>
+        <div class="form-group"><label>Especialidad</label>
+          <select id="especialidad" onchange="syncCat()">
+            <option value="">—</option>
+            <option>OOCC</option><option>EEII</option><option>Mecánico</option>
+            <option>Estructura</option><option>Piping</option><option>Soldador</option><option>Rigger</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Categoría</label>
+          <select id="categoria">
+            <option value="">—</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Licencia de Conducir</label>
+          <select id="licencia_conducir">
+            <option value="No">No</option>
+            <option>A</option><option>A1</option><option>A2</option><option>A3</option><option>A4</option>
+            <option>B</option><option>C</option><option>D</option><option>E</option><option>F</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Talla Overol</label>
+          <select id="talla_overol"><option value="">—</option>
+            <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option><option>XXXL</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Talla Zapatos</label><input id="talla_zapatos" type="number" min="34" max="50"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Información Adicional</div>
+      <div class="grid col1">
+        <div class="form-group"><label>Observaciones / Comentarios</label>
+          <textarea id="notas" rows="3" placeholder="Información adicional que desee agregar..."></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-form">
+      <button type="submit" class="btn btn-primary" id="btn-submit">Enviar Postulación</button>
+    </div>
+  </form>
+</div>
+
+<script>
+const ESPEC_CATEGORIAS = {
+  'OOCC':      ['Supervisor','Capataz','M1','M2'],
+  'EEII':      ['Supervisor','MM','Capataz','M1','M2'],
+  'Mecánico':  ['Supervisor','MM','Capataz','M1','M2'],
+  'Estructura':['Supervisor','MM','Capataz','M1','M2'],
+  'Piping':    ['Supervisor','MM','Capataz','M1','M2'],
+  'Soldador':  ['TIG','MIG','Cañería','Calderería','HDP','Oxigenista'],
+  'Rigger':    ['Alta','Baja'],
+};
+
+function syncCat(){
+  const esp = document.getElementById('especialidad').value;
+  const catSel = document.getElementById('categoria');
+  const opts = ESPEC_CATEGORIAS[esp] || [];
+  catSel.innerHTML = '<option value="">—</option>' + opts.map(o=>`<option>${o}</option>`).join('');
+}
+
+const g = id => document.getElementById(id)?.value?.trim() || '';
+
+async function enviar(e){
+  e.preventDefault();
+  const btn = document.getElementById('btn-submit');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+
+  const body = {
+    apellido_paterno: g('apellido_paterno'), apellido_materno: g('apellido_materno'),
+    primer_nombre: g('primer_nombre'), segundo_nombre: g('segundo_nombre'),
+    rut: g('rut'), fecha_nacimiento: g('fecha_nacimiento'),
+    estado_civil: g('estado_civil'), nacionalidad: g('nacionalidad'),
+    telefono: g('telefono'), correo: g('correo'),
+    direccion: g('direccion'), comuna: g('comuna'),
+    experiencia_general: parseInt(g('experiencia_general'))||0,
+    experiencia_especifica: parseInt(g('experiencia_especifica'))||0,
+    especialidad: g('especialidad'), categoria: g('categoria'), licencia_conducir: g('licencia_conducir'),
+    talla_overol: g('talla_overol'), talla_zapatos: g('talla_zapatos'),
+    notas: g('notas'), estado: 'Disponible', origen: 'postulacion',
+  };
+
+  try {
+    const r = await fetch('/api/candidatos', {
+      method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body)
+    });
+    const data = await r.json();
+    if(!r.ok) throw new Error(data.detail || 'Error al enviar');
+    document.getElementById('msg').innerHTML = `<div class="alert alert-ok">
+      ✓ ¡Postulación enviada correctamente! Nos pondremos en contacto contigo pronto.
+    </div>`;
+    document.getElementById('form-post').style.display = 'none';
+    window.scrollTo(0,0);
+  } catch(err){
+    document.getElementById('msg').innerHTML = `<div class="alert alert-err">✕ ${err.message}</div>`;
+    btn.disabled = false; btn.textContent = 'Enviar Postulación';
+  }
+}
+</script>
+</body>
+</html>
