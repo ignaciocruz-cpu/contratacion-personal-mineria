@@ -67,7 +67,8 @@ nav{flex:1;padding:12px 8px}
 nav a{display:flex;align-items:center;gap:10px;padding:9px 12px;border-left:2px solid transparent;color:var(--text-muted);font-family:'Barlow Semi Condensed',sans-serif;font-size:.85rem;font-weight:600;letter-spacing:.03em;cursor:pointer;transition:all 150ms;text-decoration:none;margin-bottom:2px}
 nav a:hover{background:var(--border);color:var(--text-primary)}
 nav a.active{background:var(--accent-bg);color:var(--accent);border-left-color:var(--accent)}
-nav a .ico{font-size:1rem;width:20px;text-align:center}
+nav a .ico{font-size:1rem;width:20px;text-align:center;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+nav a .ico svg{width:18px;height:18px;stroke:currentColor}
 .sidebar-footer{padding:12px 16px;border-top:1px solid var(--border);font-family:'Barlow Semi Condensed',sans-serif;font-size:.68rem;font-weight:600;color:var(--text-subtle);letter-spacing:.06em;text-transform:uppercase}
 
 /* ── Main ── */
@@ -195,8 +196,13 @@ tbody td{padding:10px 12px;color:var(--text-secondary);vertical-align:middle;fon
 .match-filter-bar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:14px;padding:12px;background:var(--bg-base);border:1px solid var(--border)}
 input[type=range]{accent-color:var(--accent)}
 
-/* ── Dashboard v2 ── */
-.stats-grid-6{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:14px}
+/* ── Dashboard v3 ── */
+.card-title-v2{display:flex;align-items:center;gap:8px;font-family:'Barlow Semi Condensed',sans-serif;font-size:.72rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.card-title-v2 .tick{width:3px;height:12px;background:var(--accent);flex-shrink:0}
+.kpi-row{display:grid;grid-template-columns:1.5fr repeat(5,1fr);gap:10px;margin-bottom:14px}
+.kpi-hero{background:var(--accent);color:#fff;padding:20px;display:flex;flex-direction:column;justify-content:center;gap:2px}
+.kpi-hero .num{font-family:'Barlow Condensed',sans-serif;font-size:2.9rem;font-weight:900;font-style:italic;color:#fff;line-height:1}
+.kpi-hero .lbl{font-family:'Barlow Semi Condensed',sans-serif;font-size:.74rem;font-weight:700;color:rgba(255,255,255,.85);text-transform:uppercase;letter-spacing:.08em;margin-top:6px}
 .stat-card-green{border-left-color:#22c55e!important}
 .stat-card-green .num{color:#22c55e!important}
 .alert-strip{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
@@ -204,13 +210,26 @@ input[type=range]{accent-color:var(--accent)}
 .alert-pill:hover{border-color:var(--accent)}
 .alert-pill .ap-num{font-family:'Barlow Condensed',sans-serif;font-size:1.4rem;font-weight:900;font-style:italic;color:var(--accent);line-height:1}
 .alert-pill .ap-lbl{color:var(--text-muted);font-size:.72rem;text-transform:uppercase;letter-spacing:.06em;line-height:1.3}
-.charts-4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:12px}
-.charts-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
-.pool-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:.8rem}
-.pool-bar-label{width:100px;font-family:'Barlow Semi Condensed',sans-serif;font-size:.75rem;font-weight:600;color:var(--text-muted);text-transform:uppercase;letter-spacing:.04em}
-.pool-bar-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
-.pool-bar-fill{height:100%;border-radius:4px;background:var(--accent);transition:.5s}
-.pool-bar-val{width:40px;text-align:right;font-family:'Barlow Semi Condensed',sans-serif;font-size:.75rem;color:var(--text-muted)}
+.dash-cols{display:grid;grid-template-columns:380px 1fr;gap:16px;align-items:stretch;margin-bottom:16px}
+.dash-map-outer{display:flex;flex-direction:column;margin-bottom:0}
+.dash-map-card{flex:1;min-height:0;position:relative}
+.dash-map-card svg{position:absolute;inset:0;width:100%;height:100%}
+.dash-right-col{display:flex;flex-direction:column;gap:16px}
+.dash-right-col .card{margin-bottom:0}
+.mapa-chile-region{cursor:pointer;stroke:var(--bg-surface);stroke-width:.6;stroke-linejoin:round;transition:opacity .15s}
+.mapa-chile-region:hover{opacity:.75}
+.mapa-chile-label{font-family:'Barlow Semi Condensed',sans-serif;font-size:6.5px;font-weight:700;fill:var(--text-primary);paint-order:stroke;stroke:var(--bg-surface);stroke-width:2px;stroke-linejoin:round;pointer-events:none}
+.mapa-chile-legend{display:flex;align-items:center;gap:6px;font-family:'Barlow Semi Condensed',sans-serif;font-size:.68rem;color:var(--text-subtle);margin-top:10px;justify-content:center}
+.mapa-chile-legend .swatch{width:14px;height:14px;flex-shrink:0}
+.mapa-chile-subtitle{font-family:'Barlow Semi Condensed',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--text-muted);margin-bottom:10px}
+.multi-col{columns:2;column-gap:24px}
+.multi-col .bar-row{break-inside:avoid}
+.pool-rings{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;justify-items:center}
+.pool-ring-item{display:flex;flex-direction:column;align-items:center;gap:10px;padding:10px 0}
+.pool-ring{width:132px;height:132px;border-radius:50%;display:flex;align-items:center;justify-content:center;position:relative}
+.pool-ring::before{content:'';position:absolute;width:106px;height:106px;background:var(--bg-surface);border-radius:50%}
+.pool-ring-val{position:relative;z-index:1;font-family:'Barlow Condensed',sans-serif;font-size:2rem;font-weight:900;font-style:italic}
+.pool-ring-lbl{font-family:'Barlow Semi Condensed',sans-serif;font-size:.8rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.05em;text-align:center}
 
 /* ── Estado badge ── */
 .estado-badge{display:inline-block;font-family:'Barlow Semi Condensed',sans-serif;font-size:.63rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:2px 7px}
@@ -309,19 +328,22 @@ input[type=range]{accent-color:var(--accent)}
   </div>
   <nav>
     <a class="active" onclick="showSection('dashboard')" id="nav-dashboard">
-      <span class="ico">&#9632;</span> Dashboard
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></span> Dashboard
     </a>
     <a onclick="showSection('candidatos')" id="nav-candidatos">
-      <span class="ico">&#9632;</span> Candidatos
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></span> Candidatos
     </a>
     <a onclick="showSection('ofertas')" id="nav-ofertas">
-      <span class="ico">&#9632;</span> Ofertas
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg></span> Ofertas
     </a>
     <a onclick="showSection('carga')" id="nav-carga">
-      <span class="ico">&#9632;</span> Carga Masiva
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg></span> Carga Masiva
     </a>
     <a onclick="showSection('pipeline')" id="nav-pipeline">
-      <span class="ico">&#9632;</span> Pipeline
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><line x1="9" y1="3" x2="9" y2="21"></line><line x1="15" y1="3" x2="15" y2="21"></line></svg></span> Pipeline
+    </a>
+    <a onclick="showSection('whatsapp')" id="nav-whatsapp">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg></span> WhatsApp Masivo
     </a>
   </nav>
   <div class="sidebar-footer" style="display:flex;flex-direction:column;gap:8px">
@@ -350,8 +372,8 @@ input[type=range]{accent-color:var(--accent)}
     <!-- ── Dashboard ── -->
     <div id="sec-dashboard">
       <!-- KPIs -->
-      <div class="stats-grid-6">
-        <div class="stat-card"><div class="num" id="st-cand">—</div><div class="lbl">Candidatos</div></div>
+      <div class="kpi-row">
+        <div class="kpi-hero"><div class="num" id="st-cand">—</div><div class="lbl">Candidatos en el pool</div></div>
         <div class="stat-card stat-card-green"><div class="num" id="st-disponibles">—</div><div class="lbl">Disponibles</div></div>
         <div class="stat-card"><div class="num" id="st-cv">—</div><div class="lbl">Con CV</div></div>
         <div class="stat-card"><div class="num" id="st-ofertas">—</div><div class="lbl">Ofertas activas</div></div>
@@ -360,22 +382,36 @@ input[type=range]{accent-color:var(--accent)}
       </div>
       <!-- Alertas -->
       <div class="alert-strip" id="dash-alertas"></div>
-      <!-- Completitud del Pool -->
-      <div class="card" style="margin-bottom:12px">
-        <div class="card-title">&#9632; Completitud del Pool</div>
-        <div id="pool-completeness"></div>
-      </div>
-      <!-- Charts 4 col -->
-      <div class="charts-4">
-        <div class="card"><div class="card-title">&#9632; Top Cargos</div><div id="chart-cargos"></div></div>
-        <div class="card"><div class="card-title">&#9632; Top Regiones</div><div id="chart-regiones"></div></div>
-        <div class="card"><div class="card-title">&#9632; Especialidades</div><div id="chart-especialidades"></div></div>
-        <div class="card"><div class="card-title">&#9632; Categorías</div><div id="chart-categorias"></div></div>
-      </div>
-      <!-- Estado + Diversidad -->
-      <div class="charts-2">
-        <div class="card"><div class="card-title">&#9632; Estado del Pool</div><div id="chart-estados"></div></div>
-        <div class="card"><div class="card-title">&#9632; Diversidad</div><div id="chart-nac"></div></div>
+      <!-- Mapa a la izquierda, resto de gráficos apilados a la derecha -->
+      <div class="dash-cols">
+        <div class="card dash-map-outer">
+          <div class="card-title-v2"><span class="tick"></span>Concentración por Región</div>
+          <div class="dash-map-card">
+            <svg id="mapa-chile" viewBox="0 0 170 859" preserveAspectRatio="xMidYMid meet"></svg>
+          </div>
+          <div class="mapa-chile-legend">
+            <span>Menos</span>
+            <span class="swatch" style="background:#2C2C2C"></span>
+            <span class="swatch" style="background:#14532d"></span>
+            <span class="swatch" style="background:#22c55e"></span>
+            <span>Más</span>
+          </div>
+        </div>
+        <div class="dash-right-col">
+          <div class="card">
+            <div class="card-title-v2"><span class="tick"></span>Completitud del Pool</div>
+            <div id="pool-completeness" class="pool-rings"></div>
+          </div>
+          <div class="card"><div class="card-title-v2"><span class="tick"></span>Especialidades</div><div id="chart-especialidades"></div></div>
+          <div class="card"><div class="card-title-v2"><span class="tick"></span>Categorías</div><div id="chart-categorias" class="multi-col"></div></div>
+          <div class="card">
+            <div class="card-title-v2"><span class="tick"></span>Composición del Pool</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px">
+              <div><div class="mapa-chile-subtitle">Estado</div><div id="chart-estados"></div></div>
+              <div><div class="mapa-chile-subtitle">Nacionalidad</div><div id="chart-nac"></div></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -516,6 +552,60 @@ input[type=range]{accent-color:var(--accent)}
         <p>Selecciona una oferta para ver su pipeline. Agrega candidatos desde el <strong>Ver Match</strong> de cada oferta.</p>
       </div>
       <div id="pipeline-board" class="kanban" style="display:none"></div>
+    </div>
+
+    <!-- ── WhatsApp Masivo ── -->
+    <div id="sec-whatsapp" style="display:none">
+      <div class="toolbar">
+        <select id="wa-oferta-sel" onchange="waCargarCandidatos()" style="min-width:280px"><option value="">Selecciona una oferta activa...</option></select>
+        <span id="wa-estado-badge" style="font-family:'Barlow Semi Condensed',sans-serif;font-size:.75rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:5px 10px;border:1px solid var(--border);color:var(--text-muted)">Comprobando conexión…</span>
+      </div>
+
+      <div id="wa-empty" class="empty">
+        <div class="ico">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:44px;height:44px"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
+        </div>
+        <p>Selecciona una oferta activa para preparar el mensaje y ver los candidatos que más calzan con ella.</p>
+      </div>
+
+      <div id="wa-content" style="display:none">
+        <div class="card" style="margin-bottom:12px">
+          <div class="card-title">&#9632; Mensaje a enviar</div>
+          <textarea id="wa-mensaje" rows="4" style="width:100%;border:1px solid var(--border);background:var(--bg-input);color:var(--text-primary);padding:10px 12px;font-family:'Barlow',sans-serif;font-size:.88rem;resize:vertical"></textarea>
+          <div style="font-size:.72rem;color:var(--text-subtle);margin-top:6px;font-family:'Barlow Semi Condensed',sans-serif">
+            Usa <code>{nombre}</code> para personalizar el saludo con el primer nombre de cada candidato.
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title" style="display:flex;align-items:center;justify-content:space-between">
+            <span>&#9632; Candidatos que calzan con la oferta</span>
+            <span id="wa-contador" style="font-family:'Barlow Semi Condensed',sans-serif;font-size:.78rem;color:var(--text-muted)">0 seleccionados</span>
+          </div>
+          <div class="toolbar" style="margin-bottom:10px">
+            <input id="wa-filtro" placeholder="Buscar por nombre..." oninput="waRenderLista()" style="flex:1">
+            <label style="display:flex;align-items:center;gap:6px;font-family:'Barlow Semi Condensed',sans-serif;font-size:.8rem;color:var(--text-muted);white-space:nowrap">
+              <input type="checkbox" id="wa-chk-all" onclick="waToggleTodos(this.checked)"> Seleccionar todos
+            </label>
+          </div>
+          <div class="tbl-wrap" style="max-height:420px;overflow-y:auto">
+            <table>
+              <thead><tr>
+                <th style="width:28px"></th><th>Candidato</th><th>Teléfono</th><th>Región</th><th>Match</th>
+              </tr></thead>
+              <tbody id="wa-lista"></tbody>
+            </table>
+          </div>
+          <div style="display:flex;justify-content:flex-end;margin-top:14px">
+            <button class="btn btn-primary" id="wa-btn-enviar" onclick="waEnviarMasivo()">&#128241; Enviar WhatsApp</button>
+          </div>
+        </div>
+
+        <div class="card" id="wa-resultado" style="display:none;margin-top:12px">
+          <div class="card-title">&#9632; Resultado del envío</div>
+          <div id="wa-resultado-body"></div>
+        </div>
+      </div>
     </div>
 
   </div><!-- /content -->
@@ -840,17 +930,18 @@ function closeSidebar(){
 
 function showSection(sec){
   closeSidebar();
-  ['dashboard','candidatos','ofertas','carga','pipeline'].forEach(s=>{
+  ['dashboard','candidatos','ofertas','carga','pipeline','whatsapp'].forEach(s=>{
     document.getElementById('sec-'+s).style.display = s===sec?'':'none';
     document.getElementById('nav-'+s).classList.toggle('active', s===sec);
   });
-  const titles={dashboard:'Dashboard',candidatos:'Candidatos',ofertas:'Ofertas Laborales',carga:'Carga Masiva',pipeline:'Pipeline de Selección'};
+  const titles={dashboard:'Dashboard',candidatos:'Candidatos',ofertas:'Ofertas Laborales',carga:'Carga Masiva',pipeline:'Pipeline de Selección',whatsapp:'WhatsApp Masivo'};
   document.getElementById('topbar-title').textContent = titles[sec]||sec;
   document.getElementById('topbar-badge').textContent = '';
   if(sec==='dashboard') loadDashboard();
   if(sec==='candidatos') loadCandidatos();
   if(sec==='ofertas') { loadOfertas(); loadPipelineSelect(); }
   if(sec==='pipeline') loadPipelineSelect();
+  if(sec==='whatsapp') loadWhatsappSection();
 }
 
 // ── Carga Masiva ─────────────────────────────────────────────────────────────
@@ -955,6 +1046,55 @@ async function importarExcel(){
   }
 }
 
+// ── Mapa de Chile ────────────────────────────────────────────────────────────────
+// Contorno real de las 16 regiones (geometría simplificada a partir de límites
+// administrativos oficiales), proyección equirectangular simple centrada en -35°.
+const CHILE_REGIONS_GEO = [
+  { region:'Región de Arica y Parinacota', label:'XV', cx:116.6, cy:26.5, d:'M128.22,38.06 128.66,35.96 126.64,31.08 127.23,27.78 126.42,26.69 126.14,22.33 124.74,20.42 125.10,17.28 122.18,16.50 121.05,11.04 118.76,8.37 118.75,6.00 115.14,9.61 112.77,9.29 112.23,10.63 113.61,16.01 112.41,19.77 109.67,23.02 106.32,24.30 103.06,24.18 103.52,27.18 102.87,29.77 102.51,35.00 104.11,42.64 103.84,44.58 109.89,40.62 114.26,40.05 119.54,40.02 121.61,42.27 124.39,41.80 128.22,38.06Z' },
+  { region:'Región de Tarapacá', label:'I', cx:121.2, cy:63.8, d:'M103.84,44.58 104.93,48.55 105.36,53.32 106.30,55.83 106.79,61.52 106.16,66.57 106.66,67.66 105.49,73.49 105.56,80.00 106.66,82.98 106.77,86.00 107.99,93.63 115.14,94.37 117.24,98.09 121.59,92.92 129.87,90.39 135.78,85.48 136.79,82.82 135.42,81.06 135.47,77.99 137.34,76.19 132.08,71.94 133.25,69.71 132.70,64.74 135.23,62.87 135.92,58.31 132.97,56.20 137.52,49.28 135.65,46.08 134.09,45.06 130.85,41.33 129.32,40.44 128.22,38.06 124.39,41.80 121.61,42.27 119.54,40.02 114.26,40.05 109.89,40.62 103.84,44.58Z' },
+  { region:'Región de Antofagasta', label:'II', cx:120.7, cy:145.1, d:'M107.99,93.63 106.45,98.18 106.48,102.01 104.15,116.60 104.25,120.54 103.34,124.67 103.34,127.87 101.98,130.20 98.42,130.96 97.81,139.94 101.17,139.66 101.88,142.41 99.90,146.26 99.52,155.13 98.53,166.93 99.36,170.96 100.53,173.31 99.88,175.65 101.10,177.63 100.82,181.61 99.37,183.91 97.55,184.49 97.44,187.52 95.61,191.52 97.61,195.58 97.05,196.84 101.87,193.89 107.64,194.43 110.73,193.13 118.12,194.34 119.51,192.28 122.82,192.35 125.51,191.06 126.02,186.25 128.00,181.84 132.29,181.89 135.60,179.86 136.29,177.04 139.30,175.66 137.51,171.10 135.19,168.64 138.49,161.73 141.08,159.73 157.93,151.67 164.00,128.62 160.53,124.48 153.44,126.35 149.23,125.97 147.70,124.88 147.52,117.45 146.62,113.82 146.67,108.74 144.26,105.92 144.46,101.24 142.27,97.50 142.29,90.77 138.03,82.58 136.79,82.82 135.78,85.48 129.87,90.39 121.59,92.92 117.24,98.09 115.14,94.37 107.99,93.63Z' },
+  { region:'Región de Atacama', label:'III', cx:109.0, cy:229.3, d:'M97.05,196.84 96.76,199.97 97.59,203.22 96.25,204.83 96.53,207.75 95.57,212.34 94.21,214.60 94.31,218.91 91.28,221.53 92.82,228.49 92.62,231.65 89.23,235.38 88.08,239.83 87.87,248.04 86.08,252.13 85.39,255.22 81.35,260.29 82.36,264.65 81.71,266.43 84.37,265.50 87.09,266.49 87.44,268.67 90.43,269.81 91.41,266.12 94.41,265.44 95.83,263.63 99.28,263.69 100.73,269.25 103.49,270.67 107.48,274.27 109.93,273.51 108.76,269.46 112.80,263.62 114.43,258.00 114.04,255.00 115.72,248.61 117.74,247.42 119.13,244.21 121.19,243.69 123.02,239.30 125.09,237.79 126.58,231.03 128.38,229.32 129.89,222.03 131.18,220.08 135.36,220.37 139.24,218.51 140.76,215.95 134.83,206.45 135.39,201.87 138.61,199.45 136.83,188.93 134.80,183.19 135.60,179.86 132.29,181.89 128.00,181.84 126.02,186.25 125.51,191.06 122.82,192.35 119.51,192.28 118.12,194.34 110.73,193.13 107.64,194.43 101.87,193.89 97.05,196.84Z' },
+  { region:'Región de Coquimbo', label:'IV', cx:93.9, cy:297.3, d:'M81.71,266.43 84.83,270.07 84.78,274.65 85.39,276.24 84.57,279.46 85.54,283.32 83.50,284.42 83.94,288.12 82.06,289.08 81.34,291.06 78.35,292.49 77.76,297.99 77.87,302.26 78.90,306.27 78.59,310.28 80.40,318.13 80.90,325.42 81.65,326.33 80.91,333.16 84.57,333.73 87.49,333.02 90.23,330.74 95.57,329.68 97.12,332.19 100.72,333.05 101.47,335.50 103.20,335.21 102.68,331.16 105.25,328.72 103.94,326.62 100.75,325.85 100.38,322.38 98.71,319.92 99.75,310.24 101.75,310.66 103.61,307.36 103.18,305.25 105.49,295.61 107.89,293.43 109.87,293.23 112.53,288.06 109.71,286.60 111.09,282.50 111.25,278.70 110.12,276.73 109.93,273.51 107.48,274.27 103.49,270.67 100.73,269.25 99.28,263.69 95.83,263.63 94.41,265.44 91.41,266.12 90.43,269.81 87.44,268.67 87.09,266.49 84.37,265.50 81.71,266.43Z' },
+  { region:'Región de Valparaíso', label:'V', cx:91.4, cy:350.4, d:'M80.91,333.16 83.35,337.97 82.12,340.81 82.92,343.51 81.29,347.80 80.63,351.81 77.35,354.13 78.81,357.95 78.06,361.15 79.75,363.26 78.33,367.75 76.30,368.73 75.60,371.66 77.75,372.63 80.19,370.82 80.70,368.69 82.96,369.08 84.66,365.03 84.53,360.75 86.72,359.81 86.86,356.72 90.71,355.91 90.50,351.00 92.66,350.03 97.00,350.46 98.45,350.99 98.48,351.02 99.06,351.81 98.96,352.17 99.42,352.66 99.57,353.25 99.75,353.48 99.75,353.48 100.24,353.30 101.11,351.97 102.21,353.84 104.74,354.62 108.43,352.00 108.99,348.86 106.40,345.37 106.33,339.59 104.73,338.76 104.94,336.39 103.20,335.21 101.47,335.50 100.72,333.05 97.12,332.19 95.57,329.68 90.23,330.74 87.49,333.02 84.57,333.73 80.91,333.16Z' },
+  { region:'Región Metropolitana', label:'RM', cx:96.7, cy:364.0, d:'M77.75,372.63 83.26,374.63 85.85,374.95 87.42,377.31 89.49,377.89 92.09,377.11 95.21,372.51 98.87,371.20 99.61,371.28 101.40,370.58 104.28,375.37 108.49,380.21 112.58,379.31 111.37,376.77 112.19,374.33 111.02,372.09 110.88,368.45 112.57,360.33 112.70,357.92 108.34,357.52 107.69,352.94 104.74,354.63 99.75,353.48 99.75,353.48 99.75,353.48 99.57,353.25 99.42,352.66 98.96,352.17 99.06,351.81 98.48,351.02 98.45,350.99 97.00,350.46 92.66,350.03 90.50,351.00 90.71,355.91 86.86,356.72 86.72,359.81 84.53,360.75 84.66,365.03 82.96,369.08 80.70,368.69 80.19,370.82 77.75,372.63Z' },
+  { region:'Región del Libertador B. O\'Higgins', label:'VI', cx:90.5, cy:382.5, d:'M75.60,371.66 72.38,376.73 73.04,380.46 71.70,383.45 71.51,389.10 74.13,391.96 83.17,393.94 85.70,391.43 88.33,391.31 91.65,393.21 94.99,392.94 96.87,395.17 99.20,394.91 102.39,396.19 104.52,391.60 105.07,387.42 106.64,384.66 108.81,382.96 108.49,380.21 104.28,375.37 101.40,370.58 99.61,371.28 98.87,371.20 95.21,372.51 92.09,377.11 89.49,377.89 87.42,377.31 85.85,374.95 83.26,374.63 77.75,372.63 75.60,371.66Z' },
+  { region:'Región del Maule', label:'VII', cx:85.2, cy:411.0, d:'M90.15,428.93 92.81,427.31 95.99,427.90 96.17,424.42 99.31,421.52 101.36,421.84 102.27,419.33 101.40,415.56 103.28,414.34 101.42,410.10 102.11,407.53 100.95,406.49 100.54,403.06 98.42,402.15 102.45,399.11 102.39,396.19 99.20,394.91 96.87,395.17 94.99,392.94 91.65,393.21 88.33,391.31 85.70,391.43 83.17,393.94 74.13,391.96 71.51,389.10 69.25,393.73 69.10,397.56 65.95,400.58 63.62,406.39 60.89,409.49 62.23,412.91 58.33,418.67 60.73,418.73 65.39,422.27 69.57,423.57 71.11,421.54 73.18,424.00 75.98,424.14 77.76,426.04 82.72,427.95 83.31,429.57 87.21,428.10 90.15,428.93Z' },
+  { region:'Región de Ñuble', label:'XVI', cx:74.5, cy:432.9, d:'M89.04,443.09 87.72,440.57 88.75,434.61 90.00,432.73 90.15,428.93 87.21,428.10 83.31,429.57 82.72,427.95 77.76,426.04 75.98,424.14 73.18,424.00 71.11,421.54 69.57,423.57 65.39,422.27 60.73,418.73 58.33,418.67 57.78,424.45 56.42,428.29 57.96,431.86 61.17,433.76 61.87,439.06 65.10,439.06 68.96,441.24 67.53,444.99 74.55,444.72 76.28,443.08 78.87,443.57 84.08,442.17 85.85,443.13 89.04,443.09Z' },
+  { region:'Región del Biobío', label:'VIII', cx:61.1, cy:455.7, d:'M90.00,465.67 89.56,462.44 86.93,456.01 88.64,451.60 87.10,448.80 89.04,443.09 85.85,443.13 84.08,442.17 78.87,443.57 76.28,443.08 74.55,444.72 67.53,444.99 68.96,441.24 65.10,439.06 61.87,439.06 61.17,433.76 57.96,431.86 56.42,428.29 54.39,431.29 54.11,434.82 51.47,436.89 50.86,440.48 51.48,443.27 47.78,446.07 44.67,445.30 42.28,445.77 42.19,448.81 43.49,450.90 41.86,454.68 42.39,456.97 44.90,461.26 45.98,464.76 44.61,471.57 44.83,473.66 45.09,473.73 45.25,473.46 45.25,473.46 45.25,473.46 45.63,473.48 45.63,473.48 46.25,472.97 46.66,472.32 48.61,472.05 49.17,469.58 52.61,467.18 52.86,465.19 50.52,464.06 53.40,459.49 53.50,454.41 58.37,453.91 63.78,457.32 65.23,459.43 68.09,460.25 70.63,462.76 73.17,462.81 74.87,464.63 78.00,464.48 77.82,468.74 80.68,468.42 83.88,464.85 90.00,465.67Z' },
+  { region:'Región de La Araucanía', label:'IX', cx:64.0, cy:476.2, d:'M78.40,497.83 81.54,499.38 82.15,496.19 83.97,491.52 82.78,483.93 86.08,481.15 89.10,479.76 92.16,479.95 93.68,474.96 91.21,472.81 90.00,465.67 83.88,464.85 80.68,468.42 77.82,468.74 78.00,464.48 74.87,464.63 73.17,462.81 70.63,462.76 68.09,460.25 65.23,459.43 63.78,457.32 58.37,453.91 53.50,454.41 53.40,459.49 50.52,464.06 52.86,465.19 52.61,467.18 49.17,469.58 48.61,472.05 46.66,472.32 46.25,472.97 45.63,473.48 45.63,473.48 45.25,473.46 45.25,473.46 45.25,473.46 45.09,473.73 44.83,473.66 44.83,473.66 45.36,477.58 48.40,484.84 50.17,490.91 49.85,493.92 52.53,494.00 54.18,491.73 56.11,493.70 60.52,495.48 68.61,497.06 73.64,494.59 78.40,497.83Z' },
+  { region:'Región de Los Ríos', label:'XIV', cx:62.4, cy:508.4, d:'M74.79,520.17 75.42,517.60 78.80,515.63 75.65,512.36 75.93,509.30 78.02,510.13 79.85,505.04 77.97,501.84 78.40,497.83 73.64,494.59 68.61,497.06 60.52,495.48 56.11,493.70 54.18,491.73 52.53,494.00 49.85,493.92 49.13,498.33 46.98,501.41 46.38,504.43 41.88,506.75 42.36,510.49 41.23,512.98 46.87,515.04 52.82,515.20 55.95,517.32 56.24,518.80 61.45,522.69 67.10,521.97 68.96,522.44 73.06,521.65 74.79,520.17Z' },
+  { region:'Región de Los Lagos', label:'X', cx:61.7, cy:555.4, d:'M77.34,598.16 78.90,594.81 77.03,591.93 80.18,588.90 73.81,584.56 74.48,582.86 77.44,580.68 76.91,578.05 75.13,577.55 69.94,572.17 70.37,566.10 72.34,562.97 70.14,560.65 69.67,556.41 71.59,554.64 73.91,556.31 77.51,554.69 76.29,551.23 76.48,546.18 74.63,543.31 75.66,540.54 74.19,537.84 75.85,531.19 74.91,527.40 73.17,524.13 75.33,521.59 74.79,520.17 73.06,521.65 68.96,522.44 67.10,521.97 61.45,522.69 56.24,518.80 55.95,517.32 52.82,515.20 46.87,515.04 41.23,512.98 40.29,517.87 41.20,519.48 39.50,522.26 37.24,529.00 37.49,533.01 39.08,537.03 38.89,539.95 40.14,542.36 42.57,543.22 41.17,545.96 45.31,547.56 47.51,546.83 50.01,547.67 53.58,545.51 52.50,542.97 55.70,540.38 57.01,540.85 59.05,542.10 61.06,545.58 58.11,548.46 57.74,551.45 62.77,553.06 63.98,554.89 59.04,557.15 57.81,558.42 61.19,563.68 57.62,563.75 57.88,567.93 57.28,570.65 59.53,572.44 58.29,575.03 55.87,577.23 56.65,579.56 53.13,581.57 52.61,584.69 55.21,588.56 53.42,590.82 55.71,589.98 58.59,591.54 63.85,590.76 66.46,589.41 69.14,593.81 73.22,595.87 75.15,595.08 77.34,598.16ZM22.47,585.91 21.04,588.09 22.03,589.58 25.56,587.78 22.47,585.91ZM38.20,547.24 35.60,547.28 36.10,549.54 35.02,551.38 35.18,554.82 32.88,558.04 33.47,559.17 32.66,563.47 33.83,566.82 32.96,572.12 31.94,574.79 30.05,576.42 28.65,580.32 30.56,581.66 37.52,582.73 39.48,581.33 42.22,581.47 40.79,578.18 44.33,575.74 42.82,571.85 43.17,568.80 39.89,565.38 43.45,563.73 41.99,561.06 44.28,559.57 47.68,559.63 48.12,557.99 45.86,555.69 46.71,553.72 44.80,551.37 44.98,548.34 41.96,547.69 39.89,549.37 38.20,547.24Z' },
+  { region:'Región de Aysén', label:'XI', cx:49.5, cy:648.8, d:'M51.67,712.82 55.25,706.90 58.13,707.20 62.86,703.56 61.95,696.66 68.37,692.91 66.96,688.92 64.44,687.20 62.99,684.59 64.87,678.33 67.20,674.94 66.29,673.68 72.59,670.10 72.80,668.19 75.25,667.20 73.31,662.94 73.34,659.41 78.97,656.58 78.58,653.03 76.29,645.52 79.54,640.66 76.21,634.81 77.25,631.00 82.08,630.02 81.08,628.08 84.94,625.43 82.29,622.29 80.57,618.46 71.60,616.31 72.42,614.13 78.54,614.21 81.73,613.10 85.74,614.71 86.51,611.19 89.04,609.70 88.44,607.16 83.68,605.26 80.72,605.77 76.44,604.04 75.43,600.31 77.34,598.16 75.15,595.08 73.22,595.87 69.14,593.81 66.46,589.41 63.85,590.76 58.59,591.54 55.71,589.98 53.42,590.82 54.64,592.50 52.05,596.05 52.11,597.61 49.26,599.34 50.94,602.19 56.23,604.03 60.40,607.87 59.03,613.25 53.33,617.20 47.85,617.94 47.62,620.36 49.28,622.28 45.18,624.39 48.92,626.29 45.31,629.36 44.31,635.57 44.58,637.34 44.79,637.85 46.62,638.33 47.47,638.83 48.17,638.83 49.42,638.49 50.14,638.76 48.50,639.00 47.32,642.14 44.12,647.32 41.11,650.48 39.54,654.07 37.15,653.72 40.38,649.35 41.03,646.42 39.54,645.71 37.13,642.89 35.81,640.67 34.00,636.97 29.64,636.76 26.45,637.65 23.52,637.14 19.93,638.75 16.13,638.79 18.50,646.60 17.04,646.24 14.48,649.48 8.31,654.46 6.87,654.32 6.00,659.22 9.80,662.77 12.81,661.40 10.94,658.36 10.87,655.57 17.03,655.02 18.35,657.77 31.40,659.19 34.78,663.10 27.89,671.40 27.80,673.81 29.66,676.89 27.01,675.11 23.54,678.97 27.56,680.80 35.65,680.62 38.40,681.95 41.21,680.74 41.87,676.92 41.84,680.46 43.28,682.75 42.99,684.84 45.83,688.02 42.91,688.46 41.47,686.72 37.49,686.66 35.02,685.09 30.79,685.82 27.06,684.21 25.14,685.42 29.12,689.86 32.17,691.67 33.36,696.20 29.45,698.89 31.58,701.81 33.11,701.16 36.45,701.77 44.07,707.22 51.67,712.82ZM12.15,696.64 7.84,695.18 6.73,697.84 9.32,701.00 13.49,698.27 12.15,696.64ZM27.57,694.11 29.54,697.82 31.68,696.28 27.57,694.11ZM30.94,691.87 27.88,693.72 32.20,694.65 30.94,691.87ZM23.42,688.39 21.49,694.24 18.30,696.45 19.67,699.52 23.53,699.78 25.88,701.18 27.99,698.69 25.70,697.76 26.25,694.34 23.42,688.39ZM25.94,688.15 26.01,691.52 27.66,693.48 30.16,691.26 25.94,688.15ZM14.68,687.31 16.08,692.52 18.49,695.81 20.69,693.97 22.58,689.62 20.71,689.37 17.96,687.61 14.68,687.31ZM12.03,685.74 8.15,687.68 10.04,692.79 10.08,695.06 13.66,695.01 13.84,700.14 17.72,698.74 17.32,695.89 14.06,690.36 12.03,685.74ZM18.07,682.88 16.17,685.79 20.27,689.03 22.27,686.70 18.43,684.53 18.07,682.88ZM35.37,682.99 31.68,680.87 27.45,683.31 30.73,684.85 40.13,684.18 36.76,681.76 35.37,682.99ZM16.33,678.32 13.48,680.90 17.04,681.60 16.33,678.32ZM38.46,641.15 37.45,643.08 38.66,643.55 41.02,645.88 42.52,643.06 38.46,641.15ZM44.63,638.16 43.07,641.18 43.23,646.19 46.34,642.77 47.47,640.16 48.40,638.95 47.37,638.95 46.84,638.68 45.60,638.63 44.63,638.16ZM41.54,636.93 39.57,637.50 37.44,640.12 41.57,641.99 42.26,638.64 41.54,636.93ZM36.32,630.86 34.29,632.41 35.37,635.05 38.20,634.46 38.61,632.57 36.32,630.86ZM28.90,628.90 27.17,632.54 29.33,636.21 32.78,632.74 31.02,629.64 28.90,628.90ZM42.02,628.64 39.41,632.84 42.94,636.03 44.26,629.35 42.02,628.64ZM40.31,626.92 39.15,624.49 36.34,624.83 36.84,627.25 40.31,626.92ZM29.48,622.54 29.07,624.98 31.66,626.67 32.46,623.89 29.48,622.54ZM39.55,618.61 31.74,620.66 36.47,624.66 41.92,623.37 41.35,620.23 39.55,618.61ZM33.48,615.89 28.97,619.01 30.95,619.76 36.46,618.75 36.87,616.60 33.48,615.89ZM34.10,609.88 28.99,610.36 29.86,613.96 31.71,614.66 37.33,612.23 36.47,610.01 34.10,609.88ZM41.83,608.50 38.21,609.93 40.75,613.40 43.98,612.44 43.61,609.85 41.83,608.50ZM33.00,605.92 34.16,608.63 36.53,606.62 33.00,605.92ZM54.77,604.77 50.45,605.83 49.20,608.74 46.03,610.90 47.14,615.19 50.35,617.56 53.64,616.11 60.03,608.48 54.77,604.77ZM38.85,591.58 37.90,593.09 35.02,592.34 33.13,593.59 37.07,595.64 38.85,591.58Z' },
+  { region:'Región de Magallanes', label:'XII', cx:58.4, cy:763.5, d:'M136.19,840.17 130.58,841.49 124.98,841.64 110.62,843.92 108.41,845.70 111.74,848.64 124.45,853.39 123.70,850.75 119.72,848.16 123.71,846.53 129.96,849.42 128.81,852.11 132.11,852.51 135.77,851.38 143.82,853.42 142.77,850.46 139.02,845.92 139.55,843.63 138.24,840.72 136.19,840.17ZM100.95,840.65 97.12,841.38 94.42,840.48 90.50,840.94 91.67,843.88 100.59,844.68 102.53,842.68 100.95,840.65ZM145.93,839.44 141.54,839.65 143.47,846.82 159.76,848.99 163.02,844.75 160.76,841.22 158.08,840.18 151.83,840.47 145.93,839.44ZM115.08,839.15 110.22,839.99 110.33,843.33 114.73,843.20 122.70,841.52 122.27,840.58 115.08,839.15ZM85.06,837.69 89.24,840.82 91.70,839.27 85.06,837.69ZM80.03,818.10 79.75,821.56 77.93,822.91 81.45,826.74 84.26,826.61 88.90,828.42 91.44,824.31 90.78,821.58 86.96,822.22 85.77,819.51 80.03,818.10ZM74.00,816.09 68.56,820.31 66.33,820.84 62.03,824.61 63.40,826.26 66.46,825.71 67.65,823.32 73.74,824.89 79.44,821.55 74.00,816.09ZM100.32,809.86 97.01,812.53 96.24,814.75 92.59,818.09 93.63,822.21 99.33,824.96 104.21,825.91 105.13,824.96 99.04,822.07 102.98,819.73 100.92,817.26 100.32,809.86ZM43.82,805.83 42.84,809.94 46.44,810.62 47.26,809.00 46.20,807.48 46.13,805.97 43.82,805.83ZM53.53,805.62 51.91,808.32 46.48,807.53 49.78,811.36 52.92,811.78 56.80,813.61 53.64,815.32 55.29,817.43 58.02,817.02 55.80,822.59 60.39,820.85 66.38,820.30 65.67,816.10 69.81,814.98 63.74,810.07 59.71,810.84 58.53,808.04 53.53,805.62ZM23.48,790.90 23.00,792.78 25.31,796.09 29.81,798.71 30.18,800.07 35.02,800.37 38.83,799.57 43.08,803.06 43.57,804.84 50.66,804.54 47.55,801.57 36.13,796.90 28.96,795.83 29.25,794.51 23.48,790.90ZM82.24,789.62 75.82,790.60 69.54,789.68 64.80,793.13 59.08,792.38 56.01,793.80 54.95,795.92 56.47,798.47 56.53,800.65 49.56,801.58 62.38,809.27 65.47,808.96 63.01,806.21 62.74,804.33 64.85,802.38 68.35,801.91 68.32,799.84 72.12,800.18 74.20,797.32 83.56,793.08 82.24,789.62ZM41.03,784.32 35.35,788.21 37.79,791.75 41.18,789.35 42.44,785.95 41.03,784.32ZM96.18,827.39 93.45,826.89 90.75,829.68 84.23,827.77 83.02,829.30 78.67,829.78 76.49,831.50 74.32,829.45 72.19,830.91 75.76,833.98 78.39,832.99 88.24,834.92 93.70,836.56 97.86,839.84 103.19,838.71 105.98,839.02 114.74,838.18 125.46,840.92 130.20,840.79 134.67,839.00 134.46,828.84 134.50,806.24 134.49,789.65 131.04,787.94 125.11,790.55 123.69,790.02 120.41,785.55 116.64,786.67 116.46,789.47 113.67,792.27 109.61,793.88 106.68,791.30 103.02,791.55 104.31,794.28 107.39,795.46 104.44,798.66 101.42,797.53 100.53,803.49 100.93,805.62 105.15,807.89 111.14,805.71 116.82,804.97 120.58,805.24 120.86,808.88 115.21,811.57 110.88,811.96 106.71,813.88 105.86,815.85 108.29,821.67 117.73,825.18 127.14,829.03 123.63,829.54 118.99,827.25 116.16,827.68 107.82,825.16 105.61,826.54 98.08,825.03 93.91,822.70 93.13,825.26 96.18,827.39ZM32.97,780.04 31.88,782.41 33.08,784.13 36.96,783.06 32.97,780.04ZM32.20,776.79 37.57,781.76 40.61,781.22 32.20,776.79ZM35.24,772.78 34.29,775.35 38.28,777.25 38.59,774.78 35.24,772.78ZM22.80,771.26 19.84,778.38 22.74,777.19 25.13,771.89 22.80,771.26ZM19.01,770.67 16.78,776.03 20.13,777.00 21.78,772.25 19.01,770.67ZM35.05,764.49 31.78,767.75 31.89,769.09 35.59,770.58 36.84,772.59 39.89,772.39 36.16,768.99 35.05,764.49ZM15.56,758.21 13.72,760.18 14.19,763.50 11.68,764.58 13.85,766.70 15.09,762.84 17.91,759.92 15.56,758.21ZM24.94,756.89 21.35,757.43 18.11,760.35 17.23,763.36 21.32,762.67 23.46,759.81 26.92,758.95 24.94,756.89ZM27.74,753.03 25.27,754.15 25.72,756.10 28.97,757.61 27.74,753.03ZM30.39,750.65 31.22,757.82 32.99,757.19 30.39,750.65ZM24.41,746.20 25.01,748.17 24.37,750.35 23.89,750.62 21.72,750.63 20.12,749.92 18.59,752.17 19.77,753.94 23.44,755.33 25.84,753.53 27.82,752.68 28.97,751.10 28.23,747.63 24.41,746.20ZM20.97,744.97 18.83,746.56 19.31,749.70 23.52,750.52 24.41,748.60 22.95,745.91 20.97,744.97ZM11.02,740.74 8.48,745.31 12.35,748.23 13.00,744.86 16.37,742.05 11.02,740.74ZM31.75,749.29 32.14,745.35 29.53,740.68 27.27,741.92 25.83,745.09 29.95,749.10 31.75,749.29ZM12.35,730.23 11.58,733.18 15.11,734.49 14.02,736.13 10.36,733.89 9.18,737.18 11.73,740.20 14.85,741.01 15.74,738.16 20.84,735.53 21.59,733.30 16.82,732.77 15.27,730.89 12.35,730.23ZM7.92,723.72 8.54,725.60 12.20,727.66 14.73,727.72 12.02,721.63 8.16,721.19 7.92,723.72ZM29.05,717.32 28.06,719.57 29.00,722.27 31.77,720.37 29.05,717.32ZM16.94,708.12 14.07,711.08 17.64,711.98 20.17,714.48 20.98,709.80 16.94,708.12ZM7.08,711.44 9.27,713.54 13.44,709.74 11.58,707.08 7.08,711.44ZM13.61,702.95 8.44,703.79 6.56,706.39 9.57,708.93 11.21,707.09 12.66,706.40 14.29,709.20 17.50,705.25 13.61,702.95ZM36.45,701.77 33.22,701.45 30.07,702.33 28.69,703.72 28.66,705.39 30.33,706.46 28.48,707.59 29.30,710.60 29.72,715.33 28.89,716.76 33.20,719.74 30.43,722.42 31.34,724.53 29.92,726.07 29.60,730.43 23.15,734.91 25.45,735.83 30.84,741.26 33.71,747.47 31.54,751.84 33.37,754.12 33.74,756.75 41.32,759.15 39.57,761.50 36.41,763.54 38.69,764.97 39.32,767.58 42.50,771.01 43.95,775.36 46.88,777.08 51.49,777.08 52.00,773.59 55.89,771.68 57.70,769.66 64.09,773.20 56.46,774.16 49.67,779.42 46.87,778.66 43.39,779.62 44.52,785.41 42.08,789.10 44.44,790.70 49.74,790.58 46.40,797.55 50.40,799.77 54.48,798.94 55.33,797.37 54.74,796.03 55.32,795.17 53.94,794.16 56.64,793.18 60.06,790.41 58.07,789.06 60.16,787.18 64.25,789.68 66.11,787.91 70.24,786.49 79.15,787.83 80.58,787.50 83.79,791.05 84.25,792.96 88.11,793.43 88.62,795.30 84.57,799.77 77.44,802.41 67.23,802.84 64.87,804.35 63.98,806.70 69.83,812.13 85.21,817.20 91.28,814.67 92.19,811.16 91.00,805.94 92.30,801.07 94.16,797.40 93.35,795.53 95.94,791.65 99.44,791.14 111.86,785.84 114.45,787.09 117.40,785.09 119.28,780.69 118.43,778.34 109.13,774.98 90.79,774.96 74.54,774.96 72.07,770.71 64.68,765.04 66.61,763.28 66.00,759.77 67.81,758.12 65.08,755.07 67.45,753.33 67.99,749.98 66.17,747.21 67.32,745.10 63.75,743.80 62.00,745.46 59.27,744.15 57.08,744.91 53.01,747.98 50.66,746.90 51.64,744.93 47.62,741.95 47.66,737.10 44.76,733.81 46.31,730.64 44.04,729.10 45.32,726.31 50.32,723.01 53.29,718.47 52.78,714.41 51.67,712.82 44.07,707.22 36.45,701.77ZM13.14,721.88 15.84,727.38 17.86,727.30 20.58,731.27 24.42,731.70 27.52,729.47 28.77,727.00 28.91,723.22 27.27,719.56 28.92,715.02 28.63,710.21 27.70,708.24 28.62,707.23 27.54,705.28 27.71,702.54 23.40,700.48 18.01,702.86 18.91,707.56 21.88,709.79 21.21,710.52 20.54,712.62 20.38,714.76 19.82,714.77 12.45,713.24 9.56,714.20 10.60,718.82 13.14,721.88ZM18.57,699.22 18.00,702.19 21.97,700.21 18.57,699.22ZM17.67,699.09 13.72,702.60 16.88,704.24 17.67,699.09Z' },
+];
+
+function mapaChileIrARegion(region){
+  const sel = document.getElementById('f-region');
+  if(sel) sel.value = region;
+  showSection('candidatos');
+}
+
+function renderMapaChile(regionesMapa){
+  const svg = document.getElementById('mapa-chile');
+  if(!svg) return;
+  const conteo = {};
+  (regionesMapa||[]).forEach(r=> conteo[r.region] = r.n);
+  const max = Math.max(1, ...Object.values(conteo));
+
+  let shapes = '';
+  CHILE_REGIONS_GEO.forEach(r=>{
+    const n = conteo[r.region] || 0;
+    const t = n / max;
+    const fill = n===0 ? 'var(--border)' : `rgba(34,197,94,${(0.14 + 0.80*t).toFixed(2)})`;
+    shapes += `<path class="mapa-chile-region" d="${r.d}" fill-rule="evenodd" style="fill:${fill}"
+                 onclick="mapaChileIrARegion('${r.region.replace(/'/g,"\\'")}')">
+                 <title>${r.region}: ${n} trabajador${n!==1?'es':''}</title>
+               </path>`;
+    shapes += `<text class="mapa-chile-label" x="${r.cx}" y="${r.cy}" text-anchor="middle">${r.label}</text>`;
+  });
+  svg.innerHTML = shapes;
+}
+
 // ── Catálogos ───────────────────────────────────────────────────────────────────
 
 let _catalogos = null;
@@ -1008,7 +1148,7 @@ async function loadDashboard(){
         ✓ Sin alertas pendientes — Pool en buen estado
       </div>`;
 
-  // Pool completeness
+  // Pool completeness (anillos)
   const n = s.n_candidatos || 1;
   const pct = v => Math.round(v/n*100);
   document.getElementById('pool-completeness').innerHTML = [
@@ -1016,15 +1156,15 @@ async function loadDashboard(){
     {lbl:'Con correo',   v: s.n_correo,     c:'#3b82f6'},
     {lbl:'Con teléfono', v: s.n_telefono,   c:'#a78bfa'},
     {lbl:'Con licencia', v: s.n_con_licencia,c:'#f59e0b'},
-  ].map(r=>`<div class="pool-bar-row">
-    <span class="pool-bar-label">${r.lbl}</span>
-    <div class="pool-bar-track"><div class="pool-bar-fill" style="width:${pct(r.v)}%;background:${r.c}"></div></div>
-    <span class="pool-bar-val">${pct(r.v)}%</span>
+  ].map(r=>`<div class="pool-ring-item">
+    <div class="pool-ring" style="background:conic-gradient(${r.c} calc(${pct(r.v)}*1%), var(--border) 0)">
+      <span class="pool-ring-val" style="color:${r.c}">${pct(r.v)}%</span>
+    </div>
+    <span class="pool-ring-lbl">${r.lbl}</span>
   </div>`).join('');
 
   // Charts
-  renderBars('chart-cargos',        s.top_cargos,         'cargo');
-  renderBars('chart-regiones',      s.top_regiones,       'region');
+  renderMapaChile(s.regiones_mapa || []);
   renderBars('chart-especialidades',s.top_especialidades, 'especialidad');
   renderBars('chart-categorias',    s.dist_categorias,    'categoria');
   renderBars('chart-estados',       s.dist_estados,       'estado');
@@ -1925,6 +2065,139 @@ function syncCatOpts(espId, catId, keepVal){
   const opts = ESPEC_CATEGORIAS[esp] || [];
   catSel.innerHTML = '<option value="">—</option>' + opts.map(o=>`<option>${o}</option>`).join('');
   if(keepVal) catSel.value = keepVal;
+}
+
+// ── WhatsApp Masivo ─────────────────────────────────────────────────────────────
+
+let _waMatches = [];
+let _waSeleccionados = new Set();
+
+function _waPlantilla(oferta){
+  return `¡Hola {nombre}! 👋 En Flesan Minería tenemos una nueva oportunidad para ti: *${oferta.titulo}*` +
+    (oferta.region ? ` en ${oferta.region}` : '') +
+    `. Si te interesa postular o quieres más información, responde este mensaje. ¡Te esperamos! 🧡`;
+}
+
+async function loadWhatsappSection(){
+  // Estado de conexión
+  api('/api/whatsapp/estado').then(st=>{
+    const badge = document.getElementById('wa-estado-badge');
+    if(st.conectado){
+      badge.textContent = '● Conectado' + (st.numero ? ' · '+st.numero : '');
+      badge.style.color = '#22c55e'; badge.style.borderColor = '#22c55e';
+    } else {
+      badge.textContent = '● Sin conexión con WhatsApp';
+      badge.style.color = '#ef4444'; badge.style.borderColor = '#ef4444';
+    }
+  }).catch(()=>{});
+
+  // Sólo ofertas activas
+  const sel = document.getElementById('wa-oferta-sel');
+  const actual = sel.value;
+  const { ofertas } = await api('/api/ofertas');
+  const activas = (ofertas||[]).filter(o=>o.activa);
+  sel.innerHTML = '<option value="">Selecciona una oferta activa...</option>' +
+    activas.map(o=>`<option value="${o.id}">${o.titulo}${o.region ? ' — '+o.region : ''}</option>`).join('');
+  if(actual) sel.value = actual;
+
+  document.getElementById('wa-resultado').style.display = 'none';
+}
+
+async function waCargarCandidatos(){
+  const oid = document.getElementById('wa-oferta-sel').value;
+  document.getElementById('wa-resultado').style.display = 'none';
+  if(!oid){
+    document.getElementById('wa-content').style.display = 'none';
+    document.getElementById('wa-empty').style.display = '';
+    return;
+  }
+  document.getElementById('wa-empty').style.display = 'none';
+  document.getElementById('wa-content').style.display = '';
+
+  try {
+    const data = await api('/api/ofertas/'+oid+'/match');
+    _waMatches = (data.matches||[]).filter(c=>c.telefono);
+    _waSeleccionados = new Set(_waMatches.filter(c=>c.score>=55).map(c=>c.id));
+    document.getElementById('wa-mensaje').value = _waPlantilla(data.oferta);
+    document.getElementById('wa-filtro').value = '';
+    waRenderLista();
+  } catch(e){ toast(e.message,'error'); }
+}
+
+function waRenderLista(){
+  const filtro = (document.getElementById('wa-filtro').value||'').toLowerCase();
+  const items = _waMatches.filter(c=>!filtro || fullName(c).toLowerCase().includes(filtro));
+  const tbody = document.getElementById('wa-lista');
+
+  if(!items.length){
+    tbody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--text-subtle);padding:20px">
+      ${_waMatches.length ? 'Sin resultados para tu búsqueda.' : 'No hay candidatos con teléfono registrado que calcen con esta oferta.'}
+    </td></tr>`;
+  } else {
+    tbody.innerHTML = items.map(c=>`
+      <tr>
+        <td style="text-align:center"><input type="checkbox" ${_waSeleccionados.has(c.id)?'checked':''} onchange="waToggleUno(${c.id},this.checked)"></td>
+        <td>${fullName(c)}</td>
+        <td>${c.telefono||'—'}</td>
+        <td><span class="tag region">${(c.region||'—').replace('Región de ','').replace('Región del ','').replace('Región Metropolitana','R.M.')}</span></td>
+        <td>${_badgeMatch(c.score)}</td>
+      </tr>`).join('');
+  }
+  const chkAll = document.getElementById('wa-chk-all');
+  chkAll.checked = items.length>0 && items.every(c=>_waSeleccionados.has(c.id));
+  waActualizarContador();
+}
+
+function waToggleUno(id, checked){
+  if(checked) _waSeleccionados.add(id); else _waSeleccionados.delete(id);
+  waActualizarContador();
+  document.getElementById('wa-chk-all').checked = false;
+}
+
+function waToggleTodos(checked){
+  const filtro = (document.getElementById('wa-filtro').value||'').toLowerCase();
+  const items = _waMatches.filter(c=>!filtro || fullName(c).toLowerCase().includes(filtro));
+  items.forEach(c=> checked ? _waSeleccionados.add(c.id) : _waSeleccionados.delete(c.id));
+  waRenderLista();
+}
+
+function waActualizarContador(){
+  const n = _waSeleccionados.size;
+  document.getElementById('wa-contador').textContent = `${n} seleccionado${n!==1?'s':''}`;
+}
+
+async function waEnviarMasivo(){
+  const ids = Array.from(_waSeleccionados);
+  const mensaje = document.getElementById('wa-mensaje').value.trim();
+  if(!ids.length){ toast('Selecciona al menos un candidato.','error'); return; }
+  if(!mensaje){ toast('Escribe un mensaje.','error'); return; }
+  if(!confirm(`¿Enviar WhatsApp a ${ids.length} candidato${ids.length!==1?'s':''}? Esta acción no se puede deshacer.`)) return;
+
+  const btn = document.getElementById('wa-btn-enviar');
+  btn.disabled = true; btn.textContent = 'Enviando…';
+  try {
+    const res = await api('/api/whatsapp/masivo', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ candidato_ids: ids, mensaje })
+    });
+    const body = document.getElementById('wa-resultado-body');
+    body.innerHTML = `
+      <div style="display:flex;gap:20px;margin-bottom:14px;font-family:'Barlow Semi Condensed',sans-serif">
+        <div><span style="color:#22c55e;font-weight:700;font-size:1.3rem">${res.enviados}</span> enviados</div>
+        <div><span style="color:#ef4444;font-weight:700;font-size:1.3rem">${res.fallidos}</span> fallidos</div>
+      </div>
+      <div class="tbl-wrap" style="max-height:260px;overflow-y:auto">
+        <table><thead><tr><th>Candidato</th><th>Resultado</th></tr></thead><tbody>
+          ${res.detalle.map(r=>`<tr><td>${r.nombre||'—'}</td><td style="color:${r.ok?'#22c55e':'#ef4444'}">${r.ok?'✓ Enviado':'✕ '+(r.motivo||'Error')}</td></tr>`).join('')}
+        </tbody></table>
+      </div>`;
+    document.getElementById('wa-resultado').style.display = '';
+    toast(`Envío finalizado: ${res.enviados} ok, ${res.fallidos} fallidos.`, res.fallidos ? 'error' : 'ok');
+  } catch(e){
+    toast(e.message,'error');
+  } finally {
+    btn.disabled = false; btn.textContent = '📱 Enviar WhatsApp';
+  }
 }
 
 // ── Init ─────────────────────────────────────────────────────────────────────────

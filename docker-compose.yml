@@ -1,3 +1,11 @@
+networks:
+  # Red externa donde ya corre Evolution API (whastapp_infrastructure). Se
+  # necesita para poder enviar WhatsApp usando el nombre del contenedor en vez
+  # de "localhost" (que dentro de este contenedor no vería al host).
+  evolution-net:
+    external: true
+    name: whastapp_infrastructure_default
+
 services:
   reclutamiento:
     build: .
@@ -6,4 +14,11 @@ services:
     volumes:
       - ./uploads:/app/uploads
       - ./flesan_recluta.db:/app/flesan_recluta.db
+    environment:
+      - EVOLUTION_API_URL=http://whastapp_infrastructure-evolution-api-1:8080
+      - EVOLUTION_API_KEY=ClaveMaestraSegura123
+      - EVOLUTION_INSTANCE=FlesanNumber
+    networks:
+      - default
+      - evolution-net
     restart: unless-stopped

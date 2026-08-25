@@ -11,9 +11,12 @@ from fastapi.middleware.cors import CORSMiddleware
 import sqlite3
 import shutil
 import io
+import os
 import re
+import asyncio
 import unicodedata
 import openpyxl
+import httpx
 from pathlib import Path
 from datetime import datetime
 import uvicorn, threading, webbrowser, time
@@ -32,6 +35,14 @@ UPLOADS = HERE / "uploads"
 DB_PATH = HERE / "flesan_recluta.db"
 UPLOADS.mkdir(exist_ok=True)
 
+# ── WhatsApp (Evolution API — misma instancia "FlesanNumber" usada por el resto
+#    de plataformas del área). Por defecto apunta al contenedor local; si esta
+#    app corre dockerizada, sumar la red externa whastapp_infrastructure_default
+#    y sobreescribir EVOLUTION_API_URL con el nombre del contenedor. ──────────────
+EVOLUTION_API_URL  = os.getenv("EVOLUTION_API_URL", "http://localhost:8080")
+EVOLUTION_API_KEY  = os.getenv("EVOLUTION_API_KEY", "ClaveMaestraSegura123")
+EVOLUTION_INSTANCE = os.getenv("EVOLUTION_INSTANCE", "FlesanNumber")
+
 # ── Base de datos ───────────────────────────────────────────────────────────────
 
 def _norm_sql(s):
@@ -42,6 +53,15 @@ def _norm_sql(s):
     s = _ud.normalize("NFD", str(s).lower().strip())
     s = "".join(c for c in s if _ud.category(c) != "Mn")
     return _re.sub(r"\s+", " ", s)
+
+def _norm_rut(rut):
+    """Normaliza un RUT chileno a formato NNNNNNNN-D (sin puntos, con guión, DV en mayúscula)."""
+    if not rut:
+        return rut
+    s = re.sub(r"[^0-9kK]", "", str(rut)).upper()
+    if len(s) < 2:
+        return s
+    return f"{s[:-1]}-{s[-1]}"
 
 def get_db():
     conn = sqlite3.connect(str(DB_PATH))
@@ -313,6 +333,7 @@ def get_candidato(cid: int):
 async def crear_candidato(request: Request):
     data = await request.json()
     vals = {k: data.get(k) for k in CAMPOS_CANDIDATO}
+    vals["rut"] = _norm_rut(vals.get("rut"))
     vals["origen"] = "postulacion" if data.get("origen") == "postulacion" else "manual"
     cols = ", ".join(vals.keys())
     ph   = ", ".join(["?"] * len(vals))
@@ -333,6 +354,8 @@ async def crear_candidato(request: Request):
 async def actualizar_candidato(cid: int, request: Request):
     data = await request.json()
     vals = {k: data[k] for k in CAMPOS_CANDIDATO if k in data}
+    if "rut" in vals:
+        vals["rut"] = _norm_rut(vals["rut"])
     vals["updated_at"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     set_clause = ", ".join(f"{k} = ?" for k in vals)
     conn = get_db()
@@ -370,6 +393,7 @@ def eliminar_candidato(cid: int):
 
 TIPOS_DOC = {
     "cv":                  "CV",
+    "licencia":            "Licencia de Conducir",
     "cert_titulo":         "Certificado de Título",
     "cert_afp":            "Certificado AFP",
     "cert_salud":          "Certificado Salud",
@@ -377,6 +401,7 @@ TIPOS_DOC = {
     "carnet":              "Fotocopia Carnet",
     "transferencia":       "Datos Transferencia",
     "hoja_vida_conductor": "Hoja de Vida Conductor",
+    "otros":               "Otros Documentos",
 }
 
 @app.post("/api/candidatos/{cid}/documentos/{tipo}")
@@ -440,6 +465,105 @@ def eliminar_documento(doc_id: int):
         conn.commit()
     conn.close()
     return {"ok": True}
+
+# ── WhatsApp Masivo ──────────────────────────────────────────────────────────────
+
+def _normalizar_telefono_cl(tel: str):
+    """Deja el teléfono en E.164 sin '+' (ej: 56912345678) para Evolution API."""
+    digitos = re.sub(r"\D", "", tel or "")
+    if not digitos:
+        return None
+    if digitos.startswith("56") and len(digitos) >= 11:
+        return digitos
+    if digitos.startswith("9") and len(digitos) == 9:
+        return "56" + digitos
+    if len(digitos) == 8:
+        return "569" + digitos
+    return digitos
+
+async def _wa_send_texto(numero: str, texto: str):
+    """Envía un mensaje de texto por Evolution API. Devuelve (ok, error)."""
+    url = f"{EVOLUTION_API_URL.rstrip('/')}/message/sendText/{EVOLUTION_INSTANCE}"
+    headers = {"apikey": EVOLUTION_API_KEY, "Content-Type": "application/json"}
+    payload = {
+        "number": numero,
+        "text": texto,
+        "options": {"delay": 1200, "presence": "composing", "linkPreview": True},
+    }
+    try:
+        async with httpx.AsyncClient(timeout=20.0) as cli:
+            r = await cli.post(url, json=payload, headers=headers)
+        data = {}
+        try:
+            data = r.json()
+        except Exception:
+            pass
+        if r.status_code >= 400:
+            return False, str(data.get("message") or data.get("error") or r.text)[:200]
+        return True, ""
+    except Exception as e:
+        return False, str(e)[:200]
+
+@app.get("/api/whatsapp/estado")
+async def whatsapp_estado():
+    """Estado de conexión de la instancia de WhatsApp (para mostrar un badge en el panel)."""
+    url = f"{EVOLUTION_API_URL.rstrip('/')}/instance/fetchInstances"
+    headers = {"apikey": EVOLUTION_API_KEY}
+    try:
+        async with httpx.AsyncClient(timeout=8.0) as cli:
+            r = await cli.get(url, headers=headers)
+        data = r.json() if r.content else []
+        inst = next((i for i in data if i.get("name") == EVOLUTION_INSTANCE), None) if isinstance(data, list) else None
+        estado = (inst or {}).get("connectionStatus", "no_encontrada")
+        return {"conectado": estado == "open", "estado": estado, "numero": (inst or {}).get("number", "")}
+    except Exception as e:
+        return {"conectado": False, "estado": "error", "detalle": str(e)[:150]}
+
+@app.post("/api/whatsapp/masivo")
+async def whatsapp_masivo(request: Request):
+    d = await request.json()
+    mensaje_base = (d.get("mensaje") or "").strip()
+    try:
+        ids = [int(x) for x in (d.get("candidato_ids") or [])]
+    except (TypeError, ValueError):
+        raise HTTPException(400, "candidato_ids inválido")
+    if not ids:
+        raise HTTPException(400, "Debes seleccionar al menos un candidato")
+    if not mensaje_base:
+        raise HTTPException(400, "El mensaje no puede estar vacío")
+
+    conn = get_db()
+    c = conn.cursor()
+    marcas = ",".join("?" * len(ids))
+    c.execute(f"SELECT * FROM candidatos WHERE id IN ({marcas})", ids)
+    candidatos = {row["id"]: dict(row) for row in c.fetchall()}
+
+    resultados = []
+    for i, cid in enumerate(ids):
+        cand = candidatos.get(cid)
+        nombre = " ".join(x for x in [cand and cand.get("primer_nombre"), cand and cand.get("apellido_paterno")] if x) if cand else ""
+        if not cand:
+            resultados.append({"id": cid, "nombre": "", "ok": False, "motivo": "Candidato no encontrado"})
+            continue
+        numero = _normalizar_telefono_cl(cand.get("telefono") or "")
+        if not numero:
+            resultados.append({"id": cid, "nombre": nombre, "ok": False, "motivo": "Sin teléfono registrado"})
+            continue
+        nombre_pila = (cand.get("primer_nombre") or "").strip() or "candidato/a"
+        texto = mensaje_base.replace("{nombre}", nombre_pila)
+        ok, err = await _wa_send_texto(numero, texto)
+        resultados.append({"id": cid, "nombre": nombre, "ok": ok, "motivo": "" if ok else (err or "Error al enviar")})
+        conn.execute(
+            "INSERT INTO actividad (candidato_id, tipo, descripcion) VALUES (?,?,?)",
+            (cid, "whatsapp", "WhatsApp masivo: enviado" if ok else f"WhatsApp masivo: falló ({err})"),
+        )
+        if i < len(ids) - 1:
+            await asyncio.sleep(1.3)  # anti-baneo: espacia los envíos a Evolution API
+    conn.commit()
+    conn.close()
+
+    enviados = sum(1 for r in resultados if r["ok"])
+    return {"ok": True, "enviados": enviados, "fallidos": len(resultados) - enviados, "detalle": resultados}
 
 # ── Ofertas ──────────────────────────────────────────────────────────────────────
 
@@ -803,6 +927,7 @@ async def carga_masiva(file: UploadFile = File(...)):
         if not vals.get("rut"):
             omitidos += 1
             continue
+        vals["rut"] = _norm_rut(vals["rut"])
 
         # Solo insertar campos válidos de candidatos
         insert_vals = {k: v for k, v in vals.items() if k in CAMPOS_CANDIDATO}
@@ -919,6 +1044,9 @@ def stats():
     top_cargos        = [dict(r) for r in c.fetchall()]
     c.execute("SELECT region, COUNT(*) n FROM candidatos WHERE region!='' GROUP BY region ORDER BY n DESC LIMIT 6")
     top_regiones      = [dict(r) for r in c.fetchall()]
+    c.execute("SELECT region, COUNT(*) n FROM candidatos WHERE region!='' GROUP BY region")
+    _reg_counts        = {r["region"]: r["n"] for r in c.fetchall()}
+    regiones_mapa      = [{"region": r, "n": _reg_counts.get(r, 0)} for r in REGIONES]
     c.execute("SELECT especialidad, COUNT(*) n FROM candidatos WHERE especialidad!='' GROUP BY especialidad ORDER BY n DESC LIMIT 6")
     top_especialidades= [dict(r) for r in c.fetchall()]
     c.execute("SELECT categoria, COUNT(*) n FROM candidatos WHERE categoria!='' GROUP BY categoria ORDER BY n DESC")
@@ -934,7 +1062,7 @@ def stats():
         "n_con_licencia": n_lic, "n_disponibles": n_disp, "n_este_mes": n_mes,
         "n_sin_docs": n_sin_docs, "n_sin_contacto": n_sin_contacto,
         "n_postulaciones_nuevas": n_postulaciones_nuevas,
-        "top_cargos": top_cargos, "top_regiones": top_regiones,
+        "top_cargos": top_cargos, "top_regiones": top_regiones, "regiones_mapa": regiones_mapa,
         "top_especialidades": top_especialidades, "dist_categorias": dist_categorias,
         "dist_estados": dist_estados, "dist_nacionalidades": dist_nacionalidades,
     }
