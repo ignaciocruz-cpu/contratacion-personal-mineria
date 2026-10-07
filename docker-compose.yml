@@ -1,3 +1,9 @@
+# Se levanta SIEMPRE con ./up.sh, que inyecta el catálogo central
+# ~/config/connections.env (CONN_QA_*): de ahí salen las credenciales de BD.
+# `environment:` gana sobre `env_file:`, así que aunque el .env también
+# definiera un DB_*, dentro del contenedor manda lo de acá. Los `:?` hacen que
+# el arranque falle ruidosamente si falta una credencial o el schema, en vez
+# de quedar apuntando a la BD vacía o al schema de otra plataforma.
 networks:
   # Red externa donde ya corre Evolution API (whastapp_infrastructure). Se
   # necesita para poder enviar WhatsApp usando el nombre del contenedor en vez
@@ -13,11 +19,15 @@ services:
       - "3025:3025"
     volumes:
       - ./uploads:/app/uploads
-      - ./flesan_recluta.db:/app/flesan_recluta.db
+    env_file:
+      - .env
     environment:
-      - EVOLUTION_API_URL=http://whastapp_infrastructure-evolution-api-1:8080
-      - EVOLUTION_API_KEY=ClaveMaestraSegura123
-      - EVOLUTION_INSTANCE=FlesanNumber
+      DB_HOST: "${CONN_QA_HOST:?falta CONN_QA_HOST en el catálogo}"
+      DB_PORT: "${CONN_QA_PORT:-5432}"
+      DB_NAME: "${CONN_QA_DB:?falta CONN_QA_DB en el catálogo}"
+      DB_USER: "${CONN_QA_USER:?falta CONN_QA_USER en el catálogo}"
+      DB_PASSWORD: "${CONN_QA_PASS:?falta CONN_QA_PASS en el catálogo}"
+      DB_SCHEMA: "${CONN_QA_RECLUTAMIENTOMIN_SCHEMA:?falta CONN_QA_RECLUTAMIENTOMIN_SCHEMA en el catálogo}"
     networks:
       - default
       - evolution-net

@@ -1,5 +1,5 @@
 # Base de datos y documentos de candidatos (datos personales)
-flesan_recluta.db
+flesan_recluta.db*
 uploads/
 reporte_nombres.txt
 
@@ -11,6 +11,14 @@ reporte_nombres.txt
 __pycache__/
 *.pyc
 *.pyo
+.venv/
+
+# Logs de ejecución
+*.log
+
+# Credenciales propias de la app (Google, sesión, buzón) — las de BD vienen
+# del catálogo compartido y nunca se copian acá.
+.env
 
 # Claude workspace
 .claude/

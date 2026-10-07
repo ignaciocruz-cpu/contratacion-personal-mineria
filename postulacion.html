@@ -69,37 +69,31 @@ input[type=file]::file-selector-button:hover{background:#B30000}
         <div class="form-group"><label>Segundo Nombre</label><input id="segundo_nombre"></div>
         <div class="form-group"><label class="required">RUT</label><input id="rut" placeholder="12.345.678-9" required></div>
         <div class="form-group"><label>Fecha de Nacimiento</label><input id="fecha_nacimiento" type="date"></div>
-        <div class="form-group"><label>Estado Civil</label>
-          <select id="estado_civil">
-            <option value="">—</option>
-            <option>Soltero/a</option><option>Casado/a</option>
-            <option>Divorciado/a</option><option>Viudo/a</option><option>Conviviente civil</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Nacionalidad</label>
-          <select id="nacionalidad">
-            <option value="Chilena">Chilena</option><option>Peruana</option>
-            <option>Boliviana</option><option>Colombiana</option><option>Argentina</option><option>Otra</option>
-          </select>
-        </div>
       </div>
     </div>
 
     <div class="card">
-      <div class="section-title">Contacto y Dirección</div>
+      <div class="section-title">Contacto y Región de Origen</div>
       <div class="grid">
         <div class="form-group"><label>Teléfono</label><input id="telefono" placeholder="+56 9 XXXX XXXX"></div>
         <div class="form-group"><label>Correo Electrónico</label><input id="correo" type="email"></div>
-        <div class="form-group"><label>Dirección</label><input id="direccion"></div>
-        <div class="form-group"><label>Comuna</label><input id="comuna"></div>
+        <div class="form-group"><label>Región de Origen</label>
+          <select id="region">
+            <option value="">—</option>
+            <option>Región de Arica y Parinacota</option><option>Región de Tarapacá</option><option>Región de Antofagasta</option>
+            <option>Región de Atacama</option><option>Región de Coquimbo</option><option>Región de Valparaíso</option>
+            <option>Región Metropolitana</option><option>Región del Libertador B. O'Higgins</option><option>Región del Maule</option>
+            <option>Región de Ñuble</option><option>Región del Biobío</option><option>Región de La Araucanía</option>
+            <option>Región de Los Ríos</option><option>Región de Los Lagos</option><option>Región de Aysén</option>
+            <option>Región de Magallanes</option>
+          </select>
+        </div>
       </div>
     </div>
 
     <div class="card">
       <div class="section-title">Datos Profesionales</div>
       <div class="grid">
-<div class="form-group"><label>Experiencia General (años)</label><input id="experiencia_general" type="number" min="0" value="0"></div>
-        <div class="form-group"><label>Experiencia Específica (años)</label><input id="experiencia_especifica" type="number" min="0" value="0"></div>
         <div class="form-group"><label>Especialidad</label>
           <select id="especialidad" onchange="syncCat()">
             <option value="">—</option>
@@ -139,12 +133,18 @@ input[type=file]::file-selector-button:hover{background:#B30000}
 
     <div class="card">
       <div class="section-title">Documentos</div>
-      <p class="intro">Adjunta tus documentos en PDF, Word o imagen (máx. 10 MB c/u). Si no los tienes a mano ahora, puedes enviar tu postulación igual y completarlos después.</p>
-      <div class="grid col3">
+      <p class="intro">Adjunta tu CV en PDF, Word o imagen (máx. 10 MB).</p>
+      <div class="grid col1">
         <div class="form-group"><label>Curriculum Vitae (CV)</label><input type="file" id="doc_cv" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"></div>
-        <div class="form-group"><label>Licencia de Conducir</label><input type="file" id="doc_licencia" accept=".pdf,.jpg,.jpeg,.png"></div>
-        <div class="form-group"><label>Otros Documentos</label><input type="file" id="doc_otros" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"></div>
       </div>
+    </div>
+
+    <div class="card">
+      <div class="section-title">Protección de Datos Personales</div>
+      <label style="display:flex;align-items:flex-start;gap:10px;text-transform:none;font-weight:400;font-family:'Barlow',sans-serif;font-size:.85rem;color:#231F20;cursor:pointer">
+        <input type="checkbox" id="acepta_datos" required style="width:auto;flex:none;margin-top:3px">
+        <span>Autorizo a Flesan Minería a tratar mis datos personales (antecedentes de contacto, laborales y los documentos que adjunto) con la finalidad de evaluar mi postulación y contactarme por este u otros procesos de selección, conforme a la Ley N.º 19.628 sobre Protección de la Vida Privada y sus modificaciones. Declaro haber leído y aceptar esta autorización. <span style="color:#E30613">*</span></span>
+      </label>
     </div>
 
     <div class="footer-form">
@@ -182,14 +182,12 @@ async function enviar(e){
     apellido_paterno: g('apellido_paterno'), apellido_materno: g('apellido_materno'),
     primer_nombre: g('primer_nombre'), segundo_nombre: g('segundo_nombre'),
     rut: g('rut'), fecha_nacimiento: g('fecha_nacimiento'),
-    estado_civil: g('estado_civil'), nacionalidad: g('nacionalidad'),
     telefono: g('telefono'), correo: g('correo'),
-    direccion: g('direccion'), comuna: g('comuna'),
-    experiencia_general: parseInt(g('experiencia_general'))||0,
-    experiencia_especifica: parseInt(g('experiencia_especifica'))||0,
+    region: g('region'),
     especialidad: g('especialidad'), categoria: g('categoria'), licencia_conducir: g('licencia_conducir'),
     talla_overol: g('talla_overol'), talla_zapatos: g('talla_zapatos'),
     notas: g('notas'), estado: 'Disponible', origen: 'postulacion',
+    acepta_datos: document.getElementById('acepta_datos')?.checked === true,
   };
 
   try {
@@ -214,7 +212,7 @@ async function enviar(e){
 }
 
 async function subirDocumentos(candidatoId){
-  const mapaDocs = { doc_cv: 'cv', doc_licencia: 'licencia', doc_otros: 'otros' };
+  const mapaDocs = { doc_cv: 'cv' };
   for (const [inputId, tipo] of Object.entries(mapaDocs)) {
     const file = document.getElementById(inputId)?.files?.[0];
     if (!file) continue;
