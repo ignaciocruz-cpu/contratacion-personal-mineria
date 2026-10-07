@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Limpia y normaliza candidatos_20260820_1034.xlsx:
-  1. RUT  : agrega puntos (18.574.590-2). Extranjeros quedan sin puntos.
+  1. RUT  : agrega puntos (12.345.678-9). Extranjeros quedan sin puntos.
   2. Teléfono: +569XXXXXXXX, elige el primero si hay dos números.
   3. Comunas: nombres oficiales estandarizados.
   4. Categoría y Especialidad: derivadas del Cargo.

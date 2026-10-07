@@ -53,7 +53,7 @@ UPLOADS.mkdir(exist_ok=True)
 #    app corre dockerizada, sumar la red externa whastapp_infrastructure_default
 #    y sobreescribir EVOLUTION_API_URL con el nombre del contenedor. ──────────────
 EVOLUTION_API_URL  = os.getenv("EVOLUTION_API_URL", "http://localhost:8080")
-EVOLUTION_API_KEY  = os.getenv("EVOLUTION_API_KEY", "ClaveMaestraSegura123")
+EVOLUTION_API_KEY  = os.getenv("EVOLUTION_API_KEY", "")   # sin valor por defecto: la clave vive solo en el .env
 EVOLUTION_INSTANCE = os.getenv("EVOLUTION_INSTANCE", "FlesanNumber")
 
 # ── Buzón CIA (badge/chatbot) ───────────────────────────────────────────────────
